@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             //tag는 필터링할때 사용한다. , msg는 출력할 메시지이다.
             Log.d("MainActivity","onSensorChanged: x : ${it.values[0]}, y : ${it.values[1]}, z : ${it.values[2]}")
             //Log.e는 에러 표시, w는 경고표시, i는 정보성 로그 표시, v는 모든 로그표시
+            tiltView.onSensorEvent(it)
         }
     }
 
