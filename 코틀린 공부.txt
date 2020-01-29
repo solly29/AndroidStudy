@@ -1,0 +1,1154 @@
+디모의 가장 쉬운 코틀린 강좌
+play.kotlinlang.org => 웹 코틀린 컴파일러
+
+클래스 이름은 파스칼 표기법 - 모든단어를 대문자로 시작
+함수나 변수 이름은 카멜 표기법 - 첫 단어만 소문자로 시작
+
+변수 지정 방식
+var - 일반적인 변수 언제든지 읽기 쓰기가 가능하다.
+val - 할당된 객체를 새로운 객체로 바꿀 수 없을 뿐 객체 내부의 속성은 변경가능하다.
+
+클래스에 선언된 변수는 property(속성)
+이외의 scope 내에 선언된 변수를 로컬 변수라고 한다.
+
+코틀린은 마지막에 세미클론(;)을 안적어도 된다.
+기본 변수에 null을 허용하지 않는다.
+그리고 변수를 초기화 하지 않고 사용하면 문법 에러를 표시한다.컴파일이 안된다.
+
+변수 선언은
+var 이름: 자료형이다.
+vat 이름: int? 를하면 널을 허용하는 nullable변수로 사용가는하다.
+
+숫자 표현은
+long은 숫자 뒤에 L을 붙이고
+16진수는 0x를 앞에 붙이고
+2진수는 0b를 앞에 붙인다.
+코틀린에서는 8진수를 지원하지 않는다.
+
+실수는
+숫자뒤에 e10같이 지수표기법을 사용해도되고
+float 같은 경우는 숫자 뒤에 f를 붙인다.
+
+문자 - 글자 하나가 2바이트이다.
+''를 쓴다.
+
+문자열 - ""를 쓰거나
+         """ """ 으로 여러줄의 문자열을 쓸수 있다.
+
+나머지는 자바와 똑같다.
+
+
+형변환 - (명시적)toLong(); 같이 형변환을 할수 있다.
+암시적 형변환을 지원하지 않는다.
+암시적 형변환 - 변수를 할당할 시 자료형을 지정하지 않아도 자동으로 형변환 됨
+
+배열
+var arr:Array<Int>으로 해도 되고 밑에 방법으로 해도된다. 
+var arr = arrayOf(1,2,3,4,5) - 값이 있는 배열선언
+    
+var arr2 = arrayOfNulls<Int>(5) - 비어있는 배열 선언, 제네릭을 쓴다, 뒤에는 배열 크기이다.
+선언 후에 값을 수정하거나 출력 할때는 자바와 똑같다.
+
+타입추론
+변수나 함수를 선언할때나 연산이 이루어 질때 자료형을 코드에 명시하지 않아도
+코틀린이 자동으로 자료형을 명시해준다.
+
+함수 - fun으로 선언을 한다.
+fun add(a:Int, b: Int, c: Int): Int{
+    return a+b+c
+}
+fun doWhen(a: Any) => Any 코틀린의 최상위 자료형이다.
+단순 계산이라면 이렇게 해도된다.
+fun add1(a: Int, b: Int, c: Int) = a+b+c;
+
+조건문, 연산자
+a is Int => a가 Int형이 호환이 되는지 확인하고 형변환까지 진행해 준다.
+반대로 !is 도 있다.
+fun add1(a: Int, b: Int, c: Int) = a+b+c;
+
+when - 스위치문을 편리하게 바꿨다. 하나의 변수를 여러개의 값과 비교할수 있다.
+var result = when(a){
+        1 -> "정수이다."
+        "hi" -> "문자열이다."
+        is Int -> "정수형 이다."
+        !is Int -> "정수형이 아니다."
+        else -> "else임"
+    }//여기에 직접 프린트 문을 써도 되고 저렇게 변수에 값을 넣어도 된다.
+    
+    println(result)
+
+
+반복문
+조건형 반복문과 범위형 반복문이 있다.
+조건형은 while, do while
+범위형은 for
+
+for(i in 0..9 step 3){//선언할때 자료형을 안적어도 된다.step은 증감연산,
+        print(i)
+    }
+    println()
+    for(i in 9 downTo 0 step 2){//9에서 0까지 감소, 여기에도 step을 쓸수 있다.
+        print(i)
+    }
+    
+    for(i in 'a'..'e'){//문자 char형도 가능하다.
+        print(i)
+    }
+
+
+흐름제어
+loop2@for(i in 1..10){
+        for(j in 1..10){
+            if(i == 1 && j == 2) break@loop2 
+            //반복문을 만들때 레이블을 만들어서 
+            @레이블 이름을 쓰면 해당 레이블의 반복문까지 종료된다.
+            println("i : $i, j : $j")//""안에서 변수의 값을 출력하려면 $을 써야된다.
+        }//컨티뉴도 가능
+}
+
+
+클래스
+fun main() { 
+	var a = Person("박보영", 1990)
+    var b = Person("전정국", 1997)
+    
+ 	a.intro()
+    b.intro()
+}
+
+//괄효안은 클래스가 갖는 속성(변수, 필드)이다. 이것이 생성자가 된다.
+//클래스는 속성과 함수로 나눌수 있다.
+class Person (var name:String, val birthYear:Int){
+    fun intro(){
+        println("이름 : ${name} ${birthYear}입니다.")//{}는 println이 문자열오 오인할수도 있기 때문에 썼다.
+    }
+}
+
+생성자
+init 함수로 생성자 안에 구문을 적을수 있다.(기본생성자이다.)
+init{
+        println("이름 : ${this.name} ${this.birthYear}입니다.")
+    }
+
+생성자에는 기본 생성자와 보조 생성자가 있다.
+보조 생성자 - 기본 생성자와 다른 형태의 생성자를 제고하여 인스턴스 생성시 편의를 제고하거나 추가적인 구문을 수행하는 기능을제공하는 역할을 한다. constructor이라는 키위드를 사용한다.
+보조 생성자를 쓰려면 기본 생성자를 통해서 속성을 초기화 해야된다.
+constructor(name:String) : this(name, 1997) 이런식으로 this()는 기본생성자 수행
+
+
+
+클래스 상속
+fun main() { 
+	var a = Animal("별이", 5, "개")
+	var b = Dog("별이", 5)
+    
+    a.introduce()
+    b.introduce()
+    
+    b.bark()
+    
+    var c = Cat("루이", 1)
+    
+    c.introduce()
+    c.meow()
+}
+
+//open 클래스가 상속될수 있도록 하는 키워드 이다.
+open class Animal(var name:String, var age:Int, var type:String)	{
+    fun introduce(){
+        println("저는 ${type} ${name}이고, ${age}살 입니다.")
+    }
+}
+
+//상속을 받을때 부모와 같은 이름의 속성을 가지면 안된다.
+//var을 붙이지 않으면 클래스 자체 속성이 아닌 저역 변수로 선언이 된다.
+//콜론 뒤에 슈퍼 클래스의 생성자를 호출한다. 
+class Dog (name:String, age:Int) : Animal (name, age, "개"){
+     fun bark(){
+         println("멍멍")
+     }
+}
+
+
+class Cat (name:String, age:Int) : Animal (name, age, "고양이"){
+     fun meow(){
+         println("야옹야옹")
+     }
+}
+
+
+
+오버라이딩, 추상화, 인터페이스
+추상화
+fun main() { 
+	var r = Rabbit()
+    r.eat()
+    r.sniff()
+}
+
+//클래스안에 추상 함수가 있으면 abstract를 붙여야 한다.이때는 open을 안해도 된다.
+abstract class Animal{
+    abstract fun eat()//추상 함수, 이때 open으로 구현부가 있으면 오버라이딩 가능
+    fun sniff(){
+        println("킁킁")
+    }
+}
+
+class Rabbit : Animal(){
+    override fun eat(){//재정의 할때는 override를 해야된다.
+        println("당근을 먹습니다.")
+    }
+}
+
+
+인터페이스
+자바와는 다르게 인터페이스에 속성과 추상함수, 일반함수를 가질수 있다.
+인터페이스는 생성자를 가질수는 없다. 구현부가 있으면 open 아니면 abstract로 자동으로 인식한다.
+interface Runner{
+    fun run()//추상 함수
+}
+
+interface Eater{
+    fun eat(){//일반 함수
+        println("음식을 먹는다.")
+    }
+}
+
+class Dog : Runner, Eater{
+    override fun run(){
+        println("우다다다 뜁니다.")
+    }
+    
+    override fun eat(){
+        println("허겁지겁 먹습니다.")
+    }
+}
+
+클래스와 인터페이스를 동시에 상속받고 구현하려면
+class Dog : A(), Runner, Eater 이런식으로 하면된다.
+
+
+프로젝트 구조
+프로젝트안에 모듈이있고, 여러개의 모듈이 있을수 있다.
+
+패키지 이름을 보통 회사 도메인을 거꾸로쓰고 뒤에 상세이름?을 쓴다
+예로 package com.youtube.dimo.base 이렇게하면 패키지로 묶을수 있다.
+패키지만 명시하면 컴파일러가 알아서 묶어준다.
+
+코틀린은 클래스명과 파일명이 일치하지 않아도 되고
+하나의 파일에 여러개의 클래스를 넣어도 알아서 컴파일이 가능하다.
+코틀린은 파일이나 폴더를 기준으로 하지 않고 파일 안에 package으로 구분한다.
+
+
+
+스코프와 접근제한자
+변수나 함수, 클래스 같은 멤버들을 서로 고ㅇ유하여 사용할수 있는 범위를 지정해둔 단위
+지정되는 범위는 패키지, 클래스, 함수
+
+접근제한자 - public(기본값), internal, private, protected
+internal - 같은 모듈 내에서만 접근 가능(패키지 스코프에서만 사용함)
+
+
+
+고차함수, 람다함수
+고차함수 - 함수를 클래스에서 만들어낸 인스턴스처럼 취급하는 방법
+이 함수를 파라미터로 넘겨 줄수도 있고, 결과값으로 반환 받을수도 있는 방법이다.
+코틀린에서는 모든 함수를 고차함수로 사용이 가능하다.
+
+람다함수도 일반 함수처럼 여러 구문(줄)을 수행할수 있다.반환값이 있으면 마지막 값이 반환된다.
+람다함수에 파라미터가 없으면 실행할 구문들만 나열하면 된다.
+ex) val a: () -> Unit = {println("")}
+람다함수에 파라미터가 하나뿐이라면 it을 사용한다.
+ex) val a: (String) -> Unit = {println("$it 람다함수")}
+
+fun main(){
+    b(::a)//고차함수 형태로 넘길때는 ::을 붙여야한다.
+    
+    //람다함수, 형태는 (파라미터) -> 반환자료형
+    //중괄호안에 str도 파라미터가 String임으로 타입 추론으로 저장해준다.
+    val c: (String) -> Unit = {str -> println("$str 람다함수")}
+    
+    //이렇게 써도됨 타입 추론으로 자료형을 추론하여 자동으로 저장시켜준다.
+    val d = {Str:String -> println("두번째 람다함수")}
+    b(c)
+}
+
+fun a (str: String){
+    println("$str 함수 a")
+}
+
+//이렇게하면 고차함수를 파라미터로 받을수 있다.
+//문법은 이름:(함수의 파라미터 자료형을 나열)->반환자료형
+fun b(function:(String)->Unit){
+    function("b가 호출함")
+}
+
+
+
+
+스코프 함수
+함수형 언어의 특징을 좀 더 편리하게 사용할 수 있도록 기본 제공하는 함수들이다.
+클래스의 인스턴스를 스코프 함수에 전달하면 그 인스턴스의 속성이나 함수를 깔끔하게 쓸수있다.쓰는 이유는 인스턴스의 속성이나 함수를 스코프 내에서 깔끔하게 분리하여 쓸수있다.
+apply, run, with, also, let
+
+fun main(){
+    
+    var price = 5000
+    //속성의 값을 바꾸고 함수를 호출하려면 book.으로 참조해서 불러와야 된다.
+    var book = Book("디모의 코틀린",10000).apply(){
+        //apply를 쓰면 람다형식으로 참조연산자 없이 사용이 가능하다.
+        //조작된, 수정된? 인스턴스를 apply가 끝나면 반환되서 book에 넣어준다.
+        //여기서 조작이 가능하니까 코드가 깔끔?해진다.
+        name = "[초특가]"+name
+        discount()
+    }
+    
+    book.run{//apply와 바슷하지만 가장 마지막 줄에 있는 값(속성이나 함수)을 반환한다.
+        println("상품명: ${name}, 가격: ${price}원")
+    }
+    
+    
+    //also, let은 apply와 run과 같지만 인스턴스를 파라미터로 넘긴것 처럼 it을 써서 접근한다.
+    //이렇게 it을 쓰는 이유는 run과 apply는 
+    //포함되어 있는 스코프의 속성과 인스턴스 안의 속성의 이름이 같다면 
+    //스코프의 속성을 쓰기때문에 속성및 함수의 중복을 막기위해서 쓴다.
+    book.let{
+        println("상품명: ${it.name}, 가격: ${it.price}원")
+    }
+    
+    with(book){//with는 run과 똑같지만 인스턴스를 파라미터로 받는다.
+        
+    } 
+}
+
+class Book(var name:String, var price: Int){
+    fun discount(){
+        price -= 2000
+    }
+}
+
+
+
+
+오브젝트 객체
+원래 클래스를 사용할때 인스턴스 객체를 만들어서 사용하는데
+오브젝트 객체는 인스턴스 객체를 만들 필요없이 속성이나 함수를 사용가능하다
+오브젝트 클래스 자체가 객체이기 때문이다.
+
+오브젝트 객체는 최초사용시 자동으로 생성되고 그후에는 코드 전체에서 사용가능하다
+(자바의 static 클래스와 비슷하다.)
+
+fun main(){
+	println(Counter.count)
+    
+    Counter.countUp()
+    Counter.countUp()
+    
+    println(Counter.count)
+    
+    Counter.clear()
+    
+    println(Counter.count)
+}
+
+object Counter{
+    var count = 0
+    
+    fun countUp(){
+        count++
+    }
+    
+    fun clear(){
+        count = 0
+    }
+}
+
+
+companion Object - 기본 클래스안에 오브젝트 객체를 만드는것
+(자바의 static이랑 비슷하다고 보면된다.)
+
+fun main(){
+	var a = FoodPoll("짜장")
+    var b = FoodPoll("짬뽕")
+    
+    a.vote()
+    a.vote()
+    
+    b.vote()
+    b.vote()
+    b.vote()
+    
+    println("${a.name}:${a.count}")
+    println("${b.name}:${b.count}")
+    println("총:${FoodPoll.total}")
+}
+
+class FoodPoll(val name:String){
+    companion object{//여기 있는 값은 공유가된다.
+        var total = 0
+    }
+    var count = 0
+    
+    fun vote(){
+        total++
+        count++
+    }
+}
+
+
+
+--------------------------------------------------------------------------
+
+옵저버 패턴 - 이벤트(버튼 클릭 등등)가 발생하면 즉각적으로 처리할 수 있도록 만드는 패턴
+
+fun main(){
+    EventPrinter().start()
+}
+
+interface EventListener{
+	fun onEvent(count: Int)
+}
+
+class Counter(var listener: EventListener){
+	fun count(){
+		for(i in 1..100){
+			if(i%5 == 0) listener.onEvent(i)
+		}
+	}
+}
+/*
+class EventPrinter: EventListener{
+	override fun onEvent(count: Int){
+		print("${count}-")
+	}
+	
+	fun start(){
+		val counter = Counter(this)//this로 되어 있지만 받는 쪽에서 EventListener으로 선언해기 때문에 EventListener의 구현부만 넘어간다(다향성)
+		counter.count()
+	}
+}*/
+
+class EventPrinter{
+	fun start(){
+		val counter = Counter(object: EventListener{
+			override fun onEvent(count: Int){
+				print("${count}-")
+			}
+		})
+		counter.count()
+	}
+}
+
+
+업캐스팅, 다운 캐스팅
+as = 변수를 호환되는 자료형으로 변환해주는 캐스팅 연산자
+ex) a as Cola 하면 a는 cola로 변환된다., 그리고 반환도 할수있다.
+is는 조건문 내에서 사용되고, 조건문 안에서만 변환이 된다.
+
+fun main(){
+    var a = Drink()
+	a.drink()
+	
+	var b : Drink = Cola()//다형성
+	b.drink()
+	
+	if(b is Cola){//b가 cola와 호환되는지 확인
+		b.washDishes()//if문 안에서만 다운캐스팅됨
+	}
+
+	var c = b as Cola //b가 Cola로 다운캐스팅된다.
+	c.washDishes()
+	b.washDishes()
+}
+
+open class Drink{
+	var name = "음료"
+	
+	open fun drink(){
+		println("${name}를 마십니다.")
+	}
+}
+
+class Cola: Drink(){
+	var type = "콜라"
+	
+	override fun drink(){
+		println("${name}중에 ${type}를 마십니다.")
+	}
+	
+	fun washDishes(){
+		println("${type}로 설거지를 합니다.")
+	}
+}
+
+
+
+
+제너릭 - 상속 관계의 클래스를 함수나 클래스에 인자로 넘길때 자동을 캐스팅 되지만 그러면 성능이 저하되서 제너릭을 사용해서 캐스팅을 방지하고 성능을 높일수있다
+제너릭은 타입을 자동을 추론하기 때문에 성능을 높일수 있다.
+fun <T> a(param: T):T
+class a<T>(var pref: T)
+<T:슈퍼클래스> -> 슈퍼클래스를 상속 받은 타입안 가능
+
+쓰는법
+class a<T>(var pref: T)
+클래스 생성자에 제너릭 타입을 쓴다면 a(1)이렇게 생성가능
+class a<T>()
+생성자에 제너릭 타입을 안쓰면 a<Int>()로 생성해야됨
+
+
+fun main(){
+    UsingGeneric(A()).doShouting()
+	UsingGeneric(B()).doShouting()
+	UsingGeneric(C()).doShouting()
+	
+	doShouting(B())
+}
+
+fun <T: A> doShouting(t: T){
+	t.shout()
+}
+
+open class A{
+	open fun shout(){
+		println("A가 소리칩니다.")
+	}
+}
+
+class B : A(){
+	override fun shout(){
+		println("B가 소리칩니다.")
+	}
+}
+
+class C : A(){
+	override fun shout(){
+		println("C가 소리칩니다.")
+	}
+}
+
+class UsingGeneric<T:A>(val t : T){
+	fun doShouting(){
+		t.shout()
+	}
+}
+
+
+
+
+컬렉션(리스트)
+List<out T>  => 생성시에 넣은 객체를 대체, 추가, 삭제 할 수 없음(리스트 수정 불가)(listOf(1,2,3)으로 생성)
+MutableList<T> => 생성시에 넣은 객체를 대체, 추가, 삭제 할 수 있음(mutableListOf(1,2,3)으로 생성)
+
+mutableList에는 add, remove, shuffle(), sort()가 있다.
+
+접근은 list[인덱스]
+
+
+fun main(){
+    var a = listOf("사과","딸기","배")
+	println(a[1])
+	
+	for(b in a){
+		print("${b}:")
+	}
+	println()
+	
+	var b = mutableListOf(6,3,1)
+	println(b)
+	
+	b.add(4)
+	println(b)
+	
+	b.add(2,8)
+	println(b)
+	
+	b.removeAt(1)
+	println(b)
+}
+
+
+
+
+문자열 함수
+split()안에 일반 문자열을 넣어도 동작한다.
+joinToString() - 배열에 있는 문자열 합치기(괄호안에 아무것도 없으면 그냥 합침)
+substring(5..10)
+isNullOrEmpty() - 널이거나 값이 비어있거나("" 이런식)
+isNullOrBlank() - 널이거나 값이 공백이거나(" "이런식)
+startsWith(), endsWith(), contains()  => 문자열 찾기(처음부터, 마지막부터, 전체)
+
+
+
+nullable 객체를 사용할때 값이 null인 상태에서는 if문으로 null인지 확인해야 컴파일이 된다.
+이것을 편하게 하기위해서 ?. 와 ?: 와 !!. 을 사용한다.
+
+?.  :   sample?.toUpperCase() => 참조연산자를 사용할때 앞 객체가 null인지 확인하고 null이 이면 뒤의 구문을 실행하지 않는다.
+?:  :   sample?:"default"  => 객체가 null이 아니면 그대로 사용하고 널이라면 오른쪽의 객체로 대체된다.
+!!. :   sample!!.toUpperCase() =>  null여부를 확인하지 않고 방치한다 만약 null이면 오류가 뜬다.
+
+이거 같은 경우는 스코프 함수와 같이쓰면 편하다
+
+fun main(){
+	var a: String? = "test"
+	
+	a?.run{
+		println(toUpperCase())
+		println(toLowerCase())
+	}
+}
+
+
+
+변수의 동일성
+내용의 동일성(a == b) = 변수의 값이 동일할때 (equals와 같음)
+객체의 동일성(a === b) = 참조하는 객체가 동일할때
+
+기본 자료형은 equals가 구현되어 있지만 새로만든 클래스는 구현안되어있기 때문에.
+equals를 오버라이딩해서 사용해야된다. 비교연산은 a == b이렇게 하면됨
+
+fun main(){
+	var a = Product("콜라",1000)
+	var b = Product("콜라",1000)
+	var c = a
+	var d = Product("사이다",1000)
+	
+	println(a == b)
+	println(a === b)
+	
+	println(a == c)
+	println(a === c)
+	
+	println(a == d)
+	println(a === d)
+}
+
+class Product(val name:String, val price:Int){
+	override fun equals(other: Any?): Boolean {
+		if(other is Product){//Product으로 변환됨
+			return other.name == name && other.price == price
+		}else
+			return false
+	}
+}
+
+
+
+
+함수의 여러 기능
+오버로딩, arguments
+
+arguments
+
+fun main(){
+	deliveryItem("짬뽕")
+	deliveryItem("책", 3)//자동으로 앞에서 부터 순서대로 파라미터로 넣는다.
+	deliveryItem("노트북", 30, "학교")
+	
+	deliveryItem("선물", destination = "친구집")//파라미터의 변수명 = 값을 하면 지정해서 값을 넣을수있다.
+}
+
+fun deliveryItem(name : String, count : Int = 1,destination:String = "집"){
+	println("${name}, ${count}개를 ${destination}에 배달하였습니다.")
+}
+
+
+
+vararg - 갯수가 정해져있지 않은 파라미터, 다른 파라미터와 같이 쓰려면 가장 마지막에 써야된다.
+그리고 같은 자료형의 값을 여러개 넘길수 있다.
+
+fun main(){
+	sum(1,2,3,4)
+}
+
+fun sum(vararg number: Int){
+	var sum = 0
+	
+	for(n in number){
+		sum += n
+	}
+	
+	print(sum)
+}
+
+
+
+infix function
+
+fun main(){
+	println(6 multiply 4)//6은 infix함수가 적용되는 객체 자신(this)  4는 파라미터
+	
+	println(6.multiply(4))//이렇게 써도된다.
+	
+	var a = A(10)
+	println(a.c(4))
+}
+
+//이걸로 마치 연산자처럼 쓸수있다.
+//infix함수가 적용될 자료형(클래스이름).함수이름
+infix fun Int.multiply(x : Int):Int = this * x
+
+//클래스 안에서 infix 함수를 선언할 때에는 적용할 클래스가 자기자신이므로
+
+class A(var a :Int){
+	//외부에서 infix함수를 참조하려면 앞에 자료형을 안적어도 된다. this가 자기자신(클래스)이여서
+	infix fun c(x : Int):Int = this.a * x
+}
+
+
+
+중첩 클래스 - 클래스가 내부에 존재할뿐 외부 클래스와 별개의 클래스이다. 외부 클래스의 내용을 공유할수 없음
+사용할때는 외부클래스.중첩클래스()
+
+내부 클래스 - 중첩 클래스에 앞에 inner 키워드가 붙으면 내부 클래스
+객체를 혼자서 만들수 없고 외부 클래스의 객체가 있어야 생성과 사용이 가능하다
+자바의 내부 클래스와 같음
+
+
+fun main(){
+	Outer.Nested().interduce()
+	
+	val outer = Outer()
+	val inner = outer.Inner()//내부클래스 객체 생성
+	
+	inner.interduceInner()
+	inner.interduceOuter()
+	
+	outer.test = "Changed Outer class"
+	inner.interduceOuter()//외부 클래스의 내용을 공유한다.
+}
+
+class Outer{
+	var test = "outer class"
+	
+	class Nested{//중첩 클래스
+		fun interduce(){
+			println("Nested Class")
+		}
+	}
+	
+	inner class Inner{//내부클래스
+		var test = "inner class"
+		
+		fun interduceInner(){
+			println(test)
+		}
+		
+		fun interduceOuter(){
+			println(this@Outer.test)//외부 클래스 변수 참조
+		}
+	}
+}
+
+
+
+
+
+data class - 데이터를 다루는데 최적화된 클래스(equals(), hashcode(), toString(), copy(), componentX() 자동구현)
+copy() 를할때 파라미터가 비어있으면 똑같은 내용으로 복사한다. 파라미터를 주면 일부 속서을 변경할수 있다.
+componentX() - 속성을 순서대로 반환한다. (파라미터 순서대로)
+
+위의 함수들을 쓰는 이유는 배열이나 리스트에서 자동으로 꺼내쓸수 있도록 지원하는 함수들이다.
+
+
+fun main(){
+	val a = General("디모", 212)
+	
+	//일반적인 클래스는 밑의 함수들이 제대로 구현되지 않았다.
+	println(a == General("디모",212))
+	println(a.hashCode())
+	println(a)
+	
+	val b = Data("루다", 396)
+	
+	//data클래스는 다 자동으로 구현이 되어있다.
+	println(b == Data("루다", 396))
+	println(b.hashCode())
+	println(b)
+	
+	println(b.copy())
+	println(b.copy("아린"))
+	println(b.copy(id = 618))
+}
+
+class General(val name:String, val id : Int)
+
+data class Data(val name:String, val id : Int)
+
+
+
+
+fun main(){
+        //componentX() 실습
+	val list = listOf(Data("보영",212), Data("루다",306), Data("아린",618))
+	
+	for((a, b) in list){ //a, b에 Data 클래스의 속성을 순서대로 저장한다.
+		println("${a}, ${b}")
+	}
+}
+
+class General(val name:String, val id : Int)
+
+data class Data(val name:String, val id : Int)
+
+
+
+
+enum class - 열거형 클래스, 클래스안에 상태를 구분하기 위한 클래스를 이름을 붙여 여러개 생성해두고 그중 하나의 상태를 선택해서 나타내기 위한 클래스이다.(상태 객체 이름은 대문자로 기술함)
+클래스를 만들때 생성자를 만들면 상태 객체를 선언할때 속성도 설정할수 있다.
+일반 클래스처럼 함수를 만들수있다.(객체의 선언이 끝나는 위치에 (;)을 적어줘야한다.그다음 함수를 기술한다.)
+
+fun main(){
+	var state = State.SING
+	println(state)//상태 객체의 이름을 출력
+	
+	state = State.SLEEP
+	println(state.isSleeping())
+	
+	state = State.EAT
+	println(state.message)
+}
+
+enum class State(val message: String){
+	SING("노래를 부릅니다."),
+	EAT("밥을 먹습니다."),
+	SLEEP("잠을 잡니다.");//여기있는 값이 message에 저장된다.
+	
+	fun isSleeping() = this == State.SLEEP
+}
+
+
+
+
+set 과 map
+set - set도 그냥 Set<T>과 MutableSet<T>가 있다. 리스트와 같이 수정의 유무에 따라사용함.
+map - map도 Mao과 MutableMap이 있다.
+
+
+fun main(){
+	val a = mutableMapOf("레드벨벳" to "음파음파","트와이스" to "FANCY","ITZY" to "ICY")
+	//key to value
+	
+	for(e in a){
+		println("${e.key} : ${e.value}")
+	}
+	
+	a.put("오마이걸", "번지")
+	println(a)
+	
+	a.remove("ITZY")
+	println(a)
+	
+	println(a["레드벨벳"])//참조는 배열과 같이 쓰면 된다.
+}
+
+
+
+
+
+컬렉션에서 사용할수있는 함수
+컬렉션 함수
+collection.forEach{println(it)} - 중괄호 안에서 변수가 컬렉션의 객체(아이템)?을 순서대로 참조함
+collection.filter{it < 4} - 중괄호 안에 조건을 넣으면 그 조건에 맞는 객체만 컬렉션으로 만들어서 반환한다.
+collection.map{it * 2} - 중괄호 안에 it에 수식을 적용하면 그 수식에 따라 값을 변경해서 컬렉션으로 만들어서 반환한다.(일 괄적으로 값을 변경할수있다.)
+
+collection.any{} - 안에 조건에 하나라도 맞으면 true
+collection.all{} - 모두 조건에 맞으면 true
+collection.none{} - 하나도 조건에 맞지 않으면 true
+
+collection.first() - 첫번째 객체를 반환
+collection.first{} - 안에 조건에 맞는 객체중 첫번째 객체를 반환(find으로 대체)
+collection.last{} - 조건에 맞는 마지막 객체 반환(findLast로 대체가능)
+조건에 맞는 객체가 없으면 오류가 뜨는데 이걸 방지하기 위해서
+이때 firstOrNull, lastOrNull을 쓰면 없으면 null이 반환된다.
+
+collection.count() - 포함된 모든 객체의 갯수를 반환
+collection.count{} - 안에 조건에 맞는 객체의 갯수만 반환
+
+이러한 함수들로 컬렉션을 쓸때 반복문이나 조건문을 대체할수 있다.
+
+fun main(){
+	val nameList = listOf("박수영","김지수","김다현","신유나","김지우")
+	
+	nameList.forEach{print("${it} ")}//it이 객체들을 순서대로 참조
+	println()
+	
+	println(nameList.filter{it.startsWith("김")})//김으로 시작하는 이름을 찾아서 새로운 컬랙션으로 만들어서 반환
+	
+	println(nameList.map{"이름 : "+it})//이거도 값을 수정해서 새로운 컬렉션을 만듬
+	
+	println(nameList.any{it == "김지연"})//하나라도 있으면
+	println(nameList.all{it.length == 3})//모두 참이면
+	println(nameList.none{it.startsWith("이")})//모두 참이 아니면
+	
+	println(nameList.first{it.startsWith("김")})//김으로 시작하는 객체중 가장 처음 객체
+	println(nameList.last{it.startsWith("김")})//마지막부터
+	println(nameList.count{it.contains("지")})//문자열에 지가 포함된 객체 수
+}
+
+
+
+
+컬렉션 함수
+associateBy - 객체(아이템)에서 key를 추출하여 map으로 변환하는 함수
+collection.associateBy{it.name} - 안에 key로 사용할 속성을 넣으면 된다.
+groupBy - key가 같은 객체끼리 배열로 묶어 map으로 만드는 함수
+collection.groupBy{it.birthYear} - (key는 지정된 속성 value는 객체 배열)
+partition - 객체에 조건을 걸어 두개의 컬렉션으로 나누어 준다.(true or false)
+collection.partition{it.birthYear > 2002} - 해당 조건에 따라 컬렉션 두개로 나눔
+이때 두 컬렉션을 담을수있는 Pair라는 클래스로 반환된다.
+(참조할때 first(true)와 second(false)의 속성으로 참초할수 있다.)
+아니면
+val (a, b) = collection.partition{it.birthYear > 2002} 으로하면 각각 변수에 저장된다.(true, false 순서대로)
+
+fun main(){
+	data class Person(val name:String, val bir: Int)
+	
+	val pList = listOf(Person("유나",1992), Person("조이",1996), Person("츄",1999),Person("유나", 2003))
+	
+	println(pList.associateBy{ it.bir })//해당 속성을 키로하는 map을 만듬
+	println(pList.groupBy { it.name })//해당 속성을 키로해서 같은 키를 가지면 배열로 묶어서 value로 넣어서 map을 만듬
+	val (a, b) = pList.partition { it.bir > 1998 }//해당 조건에 따라 true면 a에 아니면 b에 컬렉션을 새로만들어서 저장
+	println(a)
+	println(b)
+}
+
+
+collection.flatMap{listOf(it*3,it+3)} - 아이템 마다 새로운 컬렉션을 생성하면 다 합쳐서 하나의 컬렉션으로 반환해준다.
+collection.getOrElse(1){50} - 인덱스 위치에 아이템이 있으면 반환하고 없으면 중괄호안의 값을 반환한다.(1은 인덱스)
+collectionA zip collectionB - 컬렉션 두 개의 아이템을 1:1로 배칭하여 새 컬랙션을 만들어준다.(두 아이템을 하나의 Pair클래스 객체로 만들어서 리스트에 넣어서 반환한다.)
+이때 결과 리스트의 아이템의 갯수는 더작은 컬렉션을 따라가게된다.
+
+fun main(){
+	val num = listOf(-3,7,2,-10,1)
+	
+	println(num.flatMap { listOf(it*10,it+10) })
+	
+	println(num.getOrElse(1){50})
+	println(num.getOrElse(10){50})
+	
+	val name = listOf("a","b","c","d")
+	
+	println(num zip name)
+}
+
+
+
+
+변수의 고급 기술
+상수(const), lateinit(늦은 초기화), lazy(지연 대리자 속성)
+자바와 같이 상수는 변수 선언 앞에 const를 쓴다.
+상수는 클래스의 속성이나 함수의 지역변수로 선언할수 없고
+클래스 안에
+companion object{} 이 안에 상수를 선언 해야된다.
+그래서 클래스 객체의 생성과 상관없이 클래스명.상수이름 으로 접근한다.
+상수이름은 대문자와 _를 사용한다.
+
+
+fun main(){
+	val food = FoodCourt()
+	food.searchPrice(FoodCourt.FOOD_CREAN_PASTA)
+	food.searchPrice(FoodCourt.FOOD_PIZZA)
+	food.searchPrice(FoodCourt.FOOD_STEAK)
+}
+
+class FoodCourt{
+	fun searchPrice(foodName: String){
+		var price = when(foodName){
+			FOOD_CREAN_PASTA -> 13000
+			FOOD_STEAK -> 25000
+			FOOD_PIZZA -> 15000
+			else -> 0
+		}
+		
+		println("${foodName}의 가격은 ${price}입니다.")
+	}
+	
+	companion object {
+		const val FOOD_CREAN_PASTA = "크림파스타"
+		const val FOOD_STEAK = "스테이크"
+		const val FOOD_PIZZA = "피자"
+	}
+}
+
+
+늦은 초기화(lateinit)
+기본적으로 코틀린은 변수 선언은 해놓고 객체 할당을 나중에 하지 못하도록 되어있다.
+이때 변수 선언 앞에 lateinit을 쓰면 된다.
+이때 제한사항이 있다.
+초기값을 할당하기 전에는 변수를 사용할수 없고
+기본 자료형에는 사용할수 없다.(String 제외)
+이 변수의 초기화가 되었는지 확인하는 방법은
+::a.isInitialized은 사용할때 초기화가 되었는지 확인하여 불린값을 반환한다.
+이렇게 해야 오류가 안뜨고 안전하게 할수있다.
+
+fun main(){
+	val a = LateInitSample()
+	println(a.getLateInitText())
+	a.text = "새로운 값"
+	println(a.getLateInitText())
+}
+
+class LateInitSample{
+	lateinit var text: String
+	
+	fun getLateInitText():String {
+		if(::text.isInitialized){
+			return text
+		}else
+			return "기본"
+	}
+}
+
+
+
+지연 대리자 속성
+lazy 선언 방법은
+val a: Int by lazy{7} 중괄호 안에 초기화 값을 넣는다.
+이렇게 선언 하면 코드상으로는 바로 초기화가 된것 같지만
+실제로는 변수(a)가 사용되는 시점에 7로 초기화가 진행된다.
+코드의 실행시간을 최적화 할 수 있는 코드이다.
+람다함수 형태로 초기화가 되므로 함수 안에 여러가지 구문이 들어갈수 있다.
+val a: Int by lazy{
+ println("test")
+ 7
+}
+이렇게 하면 가장 마지막 구문의 값이 변수에 할당된다.
+
+}
+
+fun main(){
+	val num : Int by lazy {
+		println("초기화를 합니다.")
+		7
+	 }
+	
+	println("코드를 시작합나다.")
+	println(num) //이떄 초기화가 된다.
+	println(num)
+}
+
+
+
+비트연산
+shl - 비트를 왼쪽으로 옮김(1(값) shl 2(몇칸))
+shr - 비트를 오른쪽으로 옮김(1 shr 2)
+or, and, xor - 이건 그대로 쓰기 (ex. A or B)
+inv() - 1의 보수
+.toString(2)하면 2진수로 출력가능하다.
+
+
+
+비동기 처리
+코루틴(스레드와 비슷하다.)
+import kotlinx.coroutines.* 을 해야된다.
+코루틴 - 메인루틴과 별도로 진행이 가능한 루틴, 메인에서 실행과 종료를 제어할수 있다.
+
+코루틴 범위(스코프) - 글로벌 스코프, 코루틴 스코프
+글로벌 스코프 - 프로그램 어디서나 제어, 동작이 가능한 기본 범위
+코루틴 스코프 - 특정한 목적의 dispatcher를 지정해서 제어 및 동작이 가능한 범위
+dispatcher
+dispatchers.Default - 기본적인 백그라운드 동작
+dispatchers.IO      - I/O에 최적화된 동작
+dispatchers.Main    - 메인(UI) 스레드에서 동작
+이러한 dispatchers는 모든 플렛폼에서 지원하지는 않는다.
+
+생성 방법
+val scope = CoroutineScope(dispatcher.Defaunt)
+//밑의 함수로 새로운 코루틴을 생성할수 있다.
+val coroutineA = scope.launch{}
+val coroutineB = scope.async{}
+
+launch와 async의 차이는 반환값이 있는지의 여부이다.(Job 이나 Deffered 이외의값)
+launch - 반환값이 없는 Job 객체를 반환
+async - 반환값이 있는 Deffered 객체를 반환
+둘다 람다함수의 형태를 가진다.
+
+안드로이드에서는 메인 스레드에서 runBlocking을 걸어주면 일정 시간 이상 응답이 없는 경우 ANR(응답없음)이 발생하면서 앱이 강제종료된다.
+
+코루틴 대기함수 - delay(), join(), await()
+delay() - 밀리초 단위로 루틴을 잠시 대기
+join은 Job객체에서 await은 Deffered객체에서 호출해서 해당 객체의 루틴이 모두 실행될때까지 대기
+await()는 Deffered객체의 결과도 반환해준다.
+이 함수들은 코루틴 내부 또는 runBlocking 등 루틴의 대기가 가능한 구문에서 작동한다.
+
+fun main() {
+    
+    runBlocking{
+        val a = launch{
+            for(i in 1..5){
+                println(i)
+                delay(10)
+            }
+        }
+        
+        val b = async{
+            "async 종료"
+        }
+        
+        println("async 대기")
+        println(b.await())
+        
+        println("launch 대기")
+        a.join()
+        println("launch 종료")
+    }
+}
+
+코루틴 중단 - cancel()
+1. 코루린 내부의 delay() 또는 yield()가 사용된 위치까지 수행된 뒤 종료
+2. 코루틴 내부에 속성인 isActive가 false로 변하면 코드를 통해 수동으로 종료
+
+fun main() {
+    
+    runBlocking{
+        val a = launch{
+            for(i in 1..5){
+                println(i)
+                delay(10)
+            }
+        }
+        
+        val b = async{
+            "async 종료"
+        }
+        
+        println("async 대기")
+        println(b.await())
+        
+        println("launch 취소")
+        a.cancel()
+        println("launch 종료")
+    }
+}
+
+
+withTimeoutOrNull() - 제한시간 내에 수행되면 결과값을 아니면 null값을 반환한다.
+이 함수도 블록킹 함수이다.
+
+fun main() {
+    
+    runBlocking {
+       var re = withTimeoutOrNull(50){
+           for(i in 1..10){
+               println(i)
+               delay(10)
+           }
+           "Finish"
+       }
+       
+       println(re)
+    }
+}
+
+
+확장함수 - 기존 클래스에 함수를 추가할수있다.
+fun Int.isEven() = this + 10 //확장함수
+
+var a = 5
+var b = 6
+
+println(a.isEven())//확장함수안에 this는 5
+println(b.isEven())//확장함수안에 this는 6
+
+형변환은 dog as Animal이렇게 as로 한다. 그럼 dog를 animal로 변환
