@@ -1,12 +1,14 @@
 package com.example.tiltsensor
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) //화면이 항상 켜져있도록
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE //화면을 가로모드로 고정
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
