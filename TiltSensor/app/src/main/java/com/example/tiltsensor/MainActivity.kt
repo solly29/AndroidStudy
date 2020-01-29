@@ -28,12 +28,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private val sensorManager by lazy { //lazy는 이 변수를 처음 사용하면 밑에 있는 값으로 초기화 한다.
         getSystemService(Context.SENSOR_SERVICE) as SensorManager //as는 왼쪽에 있는 객체를 오늘쪽의 객체로 형변환한다.
     }
+    private lateinit var tiltView: TiltView //늦은 초기화
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) //화면이 항상 켜져있도록
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE //화면을 가로모드로 고정
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        tiltView = TiltView(this)
+        setContentView(tiltView)
     }
 
     override fun onResume() {
