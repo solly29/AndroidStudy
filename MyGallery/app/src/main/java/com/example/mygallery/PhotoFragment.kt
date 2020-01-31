@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_photo.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_URI = "uri"
 
 /**
  * A simple [Fragment] subclass.
@@ -18,43 +19,40 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class PhotoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var uri: String? = null
 
+    //Glide 라이브러리를 쓰는 이유는 미사용 리소스를 자동으로 해제하고
+    //메모리를 효율적으로 쓴다. 그리고 이미지를 비동기로 로딩하여 UI의 끊김이 없다.
+    //프래그먼트가 생성되면 호출한다.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            uri = it.getString(ARG_URI)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    //프래그먼트에 표시될 뷰를 생성한다.
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_photo, container, false)
+        return inflater.inflate(R.layout.fragment_photo, container, false) //액티비티가 아닌곳에서 레이아웃 리소스를 가지고옴
+    }
+
+    //뷰가 완성된 직후에 호출한다.
+    //savedInstanceState는 상태를 저장하는 객체이다.
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //with으로 사용할 준비를 하고, load로 해당 이미지를 부드럽게 로딩, into으로 해당 뷰에 표시한다.
+        Glide.with(this).load(uri).into(imageView)
     }
 
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PhotoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(uri: String) =
             PhotoFragment().apply {
+                //Bundle 는 여러가지의 타입의 값을 저장하는 map 클래스이다.
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(ARG_URI, uri)
                 }
             }
     }
