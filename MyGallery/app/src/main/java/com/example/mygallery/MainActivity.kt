@@ -14,6 +14,7 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
+import kotlin.concurrent.timer
 
 class MainActivity : AppCompatActivity() {
     
@@ -92,5 +93,15 @@ class MainActivity : AppCompatActivity() {
         val adapter = MyPagerAdapter(supportFragmentManager)
         adapter.updateFragments(fragments)
         viewPager.adapter = adapter
+
+        //3초마다 자동 슬라이드
+        timer(period = 3000){
+            runOnUiThread { // 타이머 안에서 외부 UI를 변경할 수 있다.
+                if(viewPager.currentItem < adapter.count - 1 ) // 현재 페이지가 마지막 페이지가 아니면
+                    viewPager.currentItem = viewPager.currentItem + 1 // 다음 페이지로
+                else
+                    viewPager.currentItem = 0 //아니면 첫 페이지로
+            }
+        }
     }
 }
