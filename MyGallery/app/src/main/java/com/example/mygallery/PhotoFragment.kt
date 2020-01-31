@@ -47,6 +47,7 @@ class PhotoFragment : Fragment() {
 
 
     companion object {
+        //프래그먼트를 생성한다.
         @JvmStatic
         fun newInstance(uri: String) =
             PhotoFragment().apply {

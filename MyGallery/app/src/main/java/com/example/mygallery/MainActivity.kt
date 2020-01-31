@@ -8,6 +8,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
@@ -72,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             null,    // 조건
             MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC")  // 찍은 날짜 순으로 내림차순
 
+        val fragments = ArrayList<Fragment>()
         //사진이 없으면 null이다.
         if(cursor != null){
             //moveToNext으로 다음 정보(이미지)로 이동할수 있다. 정보가 더이상 없으면 false를 반환
@@ -79,9 +82,15 @@ class MainActivity : AppCompatActivity() {
                 //사진 경로 Uri 가져오기 getColumnIndexOrThrow으로 해당 칼럼이 데티어베이스에서 몇번째 인덱스인지 알 수 있다.
                 val uri = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 Log.d("MainActivity", uri)
+                fragments.add(PhotoFragment.newInstance(uri))
             }
             //더이상 쓰지 않으면 close한다. 안닫으면 메모리 누수가 발생한다.
             cursor.close()
         }
+
+        // 어댑터
+        val adapter = MyPagerAdapter(supportFragmentManager)
+        adapter.updateFragments(fragments)
+        viewPager.adapter = adapter
     }
 }
