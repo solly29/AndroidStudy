@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mygallery">
-
-    <!--외부 저장소 읽기 권한 추가-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    package="com.example.gpsmap">
 
     <application
         android:allowBackup="true"
