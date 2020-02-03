@@ -3,6 +3,7 @@ package com.example.gpsmap
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -146,6 +147,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // 현재 위치에 대한 정보르 얻는다.
     inner class MyLocationCallBack : LocationCallback(){
+        //위치 정보 갱신
         override fun onLocationResult(locationRequest: LocationResult?) {
             super.onLocationResult(locationRequest)
 
@@ -154,6 +156,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 // 현재 위치로 카메라이동하고 확대까지
                 val latLng = LatLng(latitude, longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+
+                Log.d("MapsActivity","위도: ${latitude}, 경도: ${longitude}")
             }
         }
     }
