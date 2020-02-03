@@ -1,9 +1,12 @@
 package com.example.gpsmap
 
 import android.Manifest
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,6 +20,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
@@ -29,9 +33,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocatProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: MyLocationCallBack
+    private val polylineOptions = PolylineOptions().width(5f).color(Color.RED) //선의 굵기는 5, 색상은 빨강으로
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) //화면이 항상 켜져있도록
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //화면을 세로모드로 고정
         setContentView(R.layout.activity_maps)
         // 지도가 준비되면 알림을 받는다.
         val mapFragment = supportFragmentManager
@@ -158,6 +165,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
 
                 Log.d("MapsActivity","위도: ${latitude}, 경도: ${longitude}")
+
+                // polyLine에 좌표 추가
+                polylineOptions.add(latLng)
+                // 선그리기
+                mMap.addPolyline(polylineOptions)
             }
         }
     }
