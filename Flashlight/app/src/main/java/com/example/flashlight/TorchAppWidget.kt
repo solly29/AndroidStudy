@@ -48,6 +48,8 @@ internal fun updateAppWidget(
     // 여기서 부터 위젯기능부분
     val intent = Intent(context, TorchService::class.java)
     val pendingIntent = PendingIntent.getService(context, 0, intent, 0) // 서비스 인텐트 실행 하도록한다.
+    // getActivity - 액티비티 실행
+    // getV\Broadcast() - 브로드캐스트 실행
 
     // 위젯을 클릭하면 위에서 정의한 intent실행
     views.setOnClickPendingIntent(R.id.appWidget_layout, pendingIntent) // 실행할 뷰의 id와 PendingIntent 객체

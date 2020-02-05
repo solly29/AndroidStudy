@@ -4,6 +4,8 @@ import android.content.Context
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 
+// 플래시 키고 끄는 클래스
+
 class Torch(context: Context) {
     private var cameraId: String? = null // 카메라마다 고유한 id가 있다.
     private val cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager // 이 변수로 카메라 서비스를 사용가능하다.

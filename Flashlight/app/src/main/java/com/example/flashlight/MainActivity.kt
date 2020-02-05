@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         //val torch = Torch(this)
 
+        // 엑티비티에서 스위치 온 되었을때 이벤트
         flashSwitch.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked){
                 //torch.flashOn()
