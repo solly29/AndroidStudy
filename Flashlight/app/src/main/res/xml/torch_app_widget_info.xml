@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--각종 위젯의 정보를 가지고있다-->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/torch_app_widget"
     android:initialLayout="@layout/torch_app_widget"

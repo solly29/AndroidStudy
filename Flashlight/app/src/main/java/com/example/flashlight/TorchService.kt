@@ -10,15 +10,28 @@ class TorchService : Service() {
         Torch(this)
     }
 
+    private var isRunning = false
+
     // 외부에서 startService()로 서비스를 호출하면 실행이된다.
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when(intent?.action){ // action에 on/ off가 들어있다.
             // 앱에서 실행할 경우
             "on" -> {
                 torch.flashOn()
+                isRunning = true
             }
             "off" -> {
                 torch.flashOff()
+                isRunning = false
+            }
+
+            else -> {
+                isRunning = !isRunning
+                if(isRunning){
+                    torch.flashOn()
+                }else{
+                    torch.flashOff()
+                }
             }
         }
         return super.onStartCommand(intent, flags, startId)
