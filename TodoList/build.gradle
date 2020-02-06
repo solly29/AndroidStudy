@@ -9,6 +9,9 @@ buildscript {
         
     }
     dependencies {
+        //Realm 플러그인
+        //Realm으로 데이터베이스를 작성할수 있다. 이것외에 SQLite라는것도 있다.
+        classpath 'io.realm:realm-gradle-plugin:5.2.0'
         classpath 'com.android.tools.build:gradle:3.5.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong

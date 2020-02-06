@@ -4,6 +4,13 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+/*이거 순서 중요함 kapt 먼저해야됨 왜인지는 모름*/
+apply plugin: 'kotlin-kapt'
+/*realm 플러그인*/
+apply plugin: 'realm-android'
+
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -27,7 +34,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko:$anko_version"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
