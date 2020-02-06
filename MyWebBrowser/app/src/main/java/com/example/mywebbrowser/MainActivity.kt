@@ -22,13 +22,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // 이렇게 해야 웹뷰 호환이 잘된다.
         WebView.apply {
-            settings.javaScriptEnabled = true
+            settings.javaScriptEnabled = true // 자바스크립트 허용
             webViewClient = WebViewClient()
         }
 
         WebView.loadUrl("https://www.google.com")
 
+        // 자판의 검색버튼을 눌렀을때
         urlEditText.setOnEditorActionListener { _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH){
                 WebView.loadUrl(urlEditText.text.toString())
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 false
         }
 
-        registerForContextMenu(WebView)
+        registerForContextMenu(WebView) // 컨텍스트 메뉴 등록, 컨텍스트 메뉴는 화면을 꾹 눌렀을때(링크를) 나오는 메뉴이다.
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -45,11 +47,13 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    // 컨텍스트 메뉴를 쓰려면 이 메소드를 오버라이딩을 해야된다.
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        menuInflater.inflate(R.menu.context, menu)
+        menuInflater.inflate(R.menu.context, menu) // 엑티비티에 표시
     }
 
+    // 옵션 메뉴를 선택했을때 item에 선택한 메뉴의 id가 들어있다.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
             R.id.action_google, R.id.action_home -> {
@@ -65,6 +69,8 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.action_call -> {
+                // 암시적 인텐트 : 안드로이드에서 미리 정의된 인텐트이다.
+                // 암시적 인텐트의 종류는 전화, 문자, 웹 브라우저, 공유, 이메일 보내기가 있다.
                 val intent = Intent(Intent.ACTION_DIAL)
                 intent.data = Uri.parse("tel:010-1234-5678")
                 if(intent.resolveActivity(packageManager) != null)//해당 엑티비티(앱)이 있는지 확인(null이면 없음)
@@ -84,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // 컨텍스트 메뉴를 선택했을때
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
             R.id.action_share -> {
@@ -100,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         return super.onContextItemSelected(item)
     }
 
+    // 뒤로가기를 눌렀을때
     override fun onBackPressed() {
         if(WebView.canGoBack())
             WebView.goBack()
