@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_edit.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
 import java.util.*
-
+// 할일을 추가하는 액티비티이다.
 class EditActivity : AppCompatActivity() {
 
     val realm = Realm.getDefaultInstance() // realm 인스턴스 얻기

@@ -3,6 +3,7 @@ package com.example.todolist
 import android.app.Application
 import io.realm.Realm
 
+// 여기서 realm을 초기화한다.
 class MyApplication: Application() {
     override fun onCreate() { // 액티비티가 생성되기 전에 호출된다.
         super.onCreate()
