@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         setContentView(tiltView)
     }
 
-    override fun onResume() {
+    override fun onResume() { // 액티비티 실행 직전
         super.onResume()
         //센서 값을 받고(SensorEventListener을 클래스가 구현해야됨), 속도계 센서를 사용하고, 화면 방향이 전환될때 센서값을 얻는다.
         sensorManager.registerListener(this,sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_NORMAL)//센서 설정
