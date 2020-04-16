@@ -18,7 +18,7 @@
 7. [ListExample01](/ListExample01)(Java)  
     : 리스트 뷰, 어뎁터를 사용해서 리스트 표시하기
 8. [MyApplication](/MyApplication)(Java)  
-9. [MyGallery](/MyGallery)  
+9. [MyGallery](/MyGallery)(Kotlin)  
     : 나만의 갤러리 만들기(Anko, Glide 라이브러리 사용)
 10. [MyWebBrowser](/MyWebBrowser)(Kotlin)
     : 웹브라우저 만들기(인텐트사용, 앱 설정 변경)
