@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         var server = retrofit.create(retrofitService::class.java)
 
         button_get.setOnClickListener {
-            server.getRequest("aaaa").enqueue(object:Callback<List<ResponseDTO>>{
+            server.getRequest("1").enqueue(object:Callback<List<ResponseDTO>>{
                 override fun onFailure(call: Call<List<ResponseDTO>>, t: Throwable) {
                     // object 모델이 ResponseDTO가 아니면 여기로온다.
                     println(t)
@@ -51,12 +51,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_post.setOnClickListener {
-            server.postRequest("you6878@incloud.com").enqueue(object : Callback<ResponseDTO>{
-                override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
-
+            server.postRequest("3").enqueue(object : Callback<List<ResponseDTO>>{
+                override fun onFailure(call: Call<List<ResponseDTO>>, t: Throwable) {
+                    println(t)
                 }
 
-                override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
+                override fun onResponse(call: Call<List<ResponseDTO>>, response: Response<List<ResponseDTO>>) {
                     println(response?.body().toString())
                 }
             })
