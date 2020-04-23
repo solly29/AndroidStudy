@@ -9,18 +9,22 @@ data class ResponseDTO(var id: String? = null, var pass: String? = null, var nam
 interface retrofitService {
 
     // get방식에는 query과 path가 있다.
+    // query는 get방식에서 url뒤에 ?id=1 와 같이 데이터를 전송하는 매개변수를 설정한다.
     @GET("/selectTest.jsp")
     fun getRequest(@Query("id") id:String): Call<List<ResponseDTO>>
 
-    @GET("/test.jsp")
-    fun getParamRequest(@Path("msg") msg: String): Call<ResponseDTO>
+    // @Path은 경로를 동적 url으로 만드는데 사용한다.
+    @GET("/{name}")
+    fun getParamRequest(@Path("name") name: String, @Query("id") id:String): Call<List<ResponseDTO>>
 
     // post에는 formData
     // urlEncoding쓸때는 @formUrlEncoded를 써야됨
+    // 보통 post으로 데이터를 등록한다.
+    @FormUrlEncoded  // Field가 없으면 생략가능
+    @POST("/insertTest.jsp")
+    fun postRequest(@Field("id") id:String, @Field("context") context:String) : Call<String>
+
     @FormUrlEncoded
-    @POST("/selectTest.jsp")
-    fun postRequest(@Field("id") id:String) : Call<List<ResponseDTO>>
-    @FormUrlEncoded // Field가 없으면 생략가능
     @PUT("/howl/{id}")
     fun putRequest(@Path("id") id: String, @Field("content") content: String): Call<ResponseDTO>
 
