@@ -1,5 +1,7 @@
 package com.example.retrofitexam
 
+import okhttp3.MultipartBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -22,7 +24,13 @@ interface retrofitService {
     // 보통 post으로 데이터를 등록한다.
     @FormUrlEncoded  // Field가 없으면 생략가능
     @POST("/insertTest.jsp")
-    fun postRequest(@Field("id") id:String, @Field("context") context:String) : Call<String>
+    fun postRequest(@Field("jsontest") jsontest:JSONObject) : Call<String>
+
+    // 멀티파트를 이용해서 이미지를 업로드할수있다.
+    @Multipart
+    @POST("/fileUploadAndroid.jsp")
+    fun post_Image_Request(@Part("name") name: String, @Part("subject") subject: String,
+        @Part imageFile : MultipartBody.Part) : Call<String>
 
     @FormUrlEncoded
     @PUT("/howl/{id}")
