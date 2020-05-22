@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--카카오에서 제공하는 카카오로그인 버튼, 이버튼을 사용하면 따로 클릭 이벤트를
+    설정 안해도 된다.-->
     <com.kakao.usermgmt.LoginButton
         android:id="@+id/login_button"
         android:layout_width="match_parent"

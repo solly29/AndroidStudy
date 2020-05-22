@@ -27,9 +27,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        session = Session.getCurrentSession()
-        session?.addCallback(sessionCallback)
+        session = Session.getCurrentSession()  // 카카오 세션을 가져온다.
+        session?.addCallback(sessionCallback)  // 세션에 콜백를 추가시킨다.
+        // 콜백을 추가시키면 해당 콜백 클레스로 값을 받아올수 있다.
 
+        // 커스텀 버튼으로 카카오 로그인 구현
         btn_custom_login.setOnClickListener{
                 session?.open(AuthType.KAKAO_LOGIN_ALL, this@MainActivity)
         }
