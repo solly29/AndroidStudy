@@ -1,6 +1,7 @@
 package com.example.retrofitexam
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.gson.JsonObject
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -33,7 +36,7 @@ import java.io.ObjectInput
 
 class MainActivity : AppCompatActivity() {
 
-    var photoString : String? = null
+    var photoString : Uri? = null
     private val REQUEST_READ_EXTERNAL_STORAGE = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +53,8 @@ class MainActivity : AppCompatActivity() {
 
         val server = retrofit.create(retrofitService::class.java)
 
-        setAuthority()
+        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON_TOUCH)
+            .start(this)
 
         // select
         button_get.setOnClickListener {
@@ -123,7 +127,9 @@ class MainActivity : AppCompatActivity() {
 
         // 이미지 업로드
         button_post_image.setOnClickListener {
-            val requestBody = RequestBody.create(MediaType.parse("image/*"), File(photoString!!))
+
+
+            val requestBody = RequestBody.create(MediaType.parse("image/*"), File(photoString!!.path!!))
             val body : MultipartBody.Part = MultipartBody.Part.createFormData("a", "abc.jpg", requestBody)
 
             server.post_Image_Request("a","test", body).enqueue(object : Callback<String>{
@@ -161,7 +167,14 @@ class MainActivity : AppCompatActivity() {
     // 겔러리에서 사진을 선택했을때
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        photoString = getRealPathFromURI(data!!.data!!)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == Activity.RESULT_OK) {
+                photoString = result.uri
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+            }
+        }
     }
 
     // 절대경로로 변경하는 메소드
