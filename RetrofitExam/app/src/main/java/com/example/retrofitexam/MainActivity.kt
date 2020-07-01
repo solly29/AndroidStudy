@@ -65,11 +65,13 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onResponse(call: Call<List<ResponseDTO>>, response: Response<List<ResponseDTO>>) {
+                    response.isSuccessful // 결과 코드가 200범위 일때 true값
                     println(response.body().toString())
                 }
             })
         }
 
+        //enqueue은 비동기로 request를 보내고 response가 돌아올때 앱에 콜백을 알려주는 역할을한다.
         button_get_param.setOnClickListener {
             // 괄호안에는 경로를 넣는다. 그 경로로가서 결과값을 받아온다.
             server.getParamRequest("selectTest.jsp","2").enqueue((object:Callback<List<ResponseDTO>>{
@@ -84,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 디비에 값을 insert
-        // 여기서 json을 만들어서 보내면 스트링 값으로 보내어지고
+        // 여기서 json을 만들어서 보내면 스트링 값으로 보내지고
         // jsp에서 스트링을 json으로 변환해서 사용해야된다.
         button_post.setOnClickListener {
             val jsontest = JSONObject()
