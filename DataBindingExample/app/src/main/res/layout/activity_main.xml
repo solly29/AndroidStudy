@@ -39,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:bind_image="@{user.profileURL}"
+            app:bind_error_image="@{@drawable/ic_launcher_foreground}"
             app:layout_constraintTop_toBottomOf="@+id/address_textView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
