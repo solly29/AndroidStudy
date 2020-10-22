@@ -7,7 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RetrofitService{
-    //val key: String get() = "devU01TX0FVVEgyMDIwMTAyMjE3NDkxNjExMDMxOTg"
 
     @GET("addrLinkApi.do")
     suspend fun getAddressRequest(
