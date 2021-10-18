@@ -3,7 +3,12 @@ package com.example.composebasics
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,10 +31,22 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
+    var isSelected by remember {
+        mutableStateOf(false)
+    }
+    val backgroundColor by animateColorAsState(
+        targetValue = if(isSelected) Color.Red else Color.Transparent
+    )
+
+
     Surface(color = Color.Yellow) {
         Text(
             text = "Hello $name!",
             modifier = Modifier.padding(24.dp)
+                .background(color = backgroundColor)
+                .clickable {
+                    isSelected = !isSelected
+                }
         )
     }
 }
@@ -53,7 +70,7 @@ fun MyApp(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun MyScreenContent(names: List<String> = listOf("Android", "there")) {
+fun MyScreenContent(names: List<String> = List(1000) {"Hello Android #$it"}) {
 
     var count by remember {
         mutableStateOf(0)
@@ -63,13 +80,7 @@ fun MyScreenContent(names: List<String> = listOf("Android", "there")) {
         modifier = Modifier.fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            names.forEach {
-                Greeting(name = it)
-                Divider(color = Color.Black)  // 선
-            }
-        }
-        Divider(color = Color.Transparent, thickness = 32.dp)
+        NameList(names = names, Modifier.weight(1f))
         Counter(
             count = count,
             updateCount = {
@@ -81,11 +92,26 @@ fun MyScreenContent(names: List<String> = listOf("Android", "there")) {
 
 @Composable
 fun Counter(count: Int, updateCount: (Int) -> Unit) {
-    Button(onClick = {
+    Button(
+        onClick = {
         updateCount(count + 1)
-    },
+        },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = if(count > 5) Color.Green else Color.White
+        ),
     modifier = Modifier.padding(bottom = 10.dp) // padding이 마진이다..?
     ) {
         Text(text = "버튼 클릭 $count")
+    }
+}
+
+
+@Composable
+fun NameList(names: List<String>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier) {
+        items(items = names) {
+            Greeting(name = it)
+            Divider(color = Color.Black)
+        }
     }
 }
